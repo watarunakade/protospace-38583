@@ -15,7 +15,6 @@ default: &default
 
 development:
   <<: *default
-  <<: *default
   adapter: mysql2
   username: root
   password:
