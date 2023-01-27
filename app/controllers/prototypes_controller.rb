@@ -7,6 +7,7 @@ class PrototypesController < ApplicationController
   def new
     @prototype = Prototype.new
   end
+
   def create
     @prototype = Prototype.new(prototype_params)
     @prototype.save
@@ -16,18 +17,23 @@ class PrototypesController < ApplicationController
       render :new
     end
   end
+
   def show
     @prototype = Prototype.find(params[:id])
     @user = @prototype.user
     @comment = Comment.new
     @comments = @prototype.comments.includes(:prototype)
   end
+
   def edit
-    unless user_signed_in?
-      redirect_to action: :index
-    end
     @prototype = Prototype.find(params[:id])
+    @user = @prototype.user
+    unless current_user == @user then
+      redirect_to root_path(@user)
+    end
+    
   end
+
   def update
     @prototype = Prototype.find(params[:id])
     @prototype.update(prototype_params)
@@ -37,6 +43,7 @@ class PrototypesController < ApplicationController
       render :edit
     end
   end
+
   def destroy
     @prototype = Prototype.find(params[:id])
     @prototype.destroy
