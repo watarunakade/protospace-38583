@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   def create
     comment = Comment.create(comment_params)
-    if Comment.create(comment_params)
+    if comment.save
       redirect_to prototype_path(comment.prototype_id)
     else
       prototype = comment.prototype
